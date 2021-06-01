@@ -12,6 +12,13 @@ app.get('/', (req,res) => {
     // console.log(req.body)
 
     controller.Read(req.body)
+    .then((persons) => {
+        // console.log(persons)
+        return res.send(JSON.stringify(persons))
+    })
+    .catch(err => {
+        return "Error";
+    })
 })
 
 app.post('/', (req,res) => {

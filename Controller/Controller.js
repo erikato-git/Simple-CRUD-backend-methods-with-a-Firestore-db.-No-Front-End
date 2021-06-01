@@ -10,15 +10,20 @@ admin.initializeApp({
 const db = admin.firestore();
 
 
+
+
 exports.Create = async function(args) {
 
-    const person =  await db.collection("Person")
-                    .where('name', '==', args.name)
-                    .where('phone', '==', args.phone)
-                    .get()
+    //Tjek for datatyper og Null
+    //TODO: Undersøg om man kan gøre det vha. mongoose
+
+    const findPerson =  await db.collection("Person")
+                        .where('name', '==', args.name)
+                        .where('phone', '==', args.phone)
+                        .get()
 
     // Hvis personen ikke findes i databasen: Sandt -> Create
-    if(person.empty){
+    if(findPerson.empty){
         db.collection("Person").doc().set({
             name: args.name,
             phone: args.phone
@@ -26,17 +31,28 @@ exports.Create = async function(args) {
     }else{
         return "PERSONEN FINDES ALLEREDE";
     }
-
 }
 
 
-exports.Read = function() {
+exports.Read = async function() {
+    const persons = await db.collection("Person").get()
 
-    return "Read";
+    return persons.docs.map(doc => doc.data());
 }
 
 
-exports.Update = function() {
+exports.Update = async function(args) {
+
+    console.log("args: "+args)
+
+    const updatePerson =    await db.collection("Person")
+                            .where('name', '==', args.name)
+                            .where('phone', '==', args.phone)
+                            .set({
+                                name: args.name,
+                                phone: args.phone
+                            })
+
 
     return "Update";
 }
