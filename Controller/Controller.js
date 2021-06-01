@@ -24,7 +24,10 @@ exports.Create = async function(args) {
 
     // Hvis personen ikke findes i databasen: Sandt -> Create
     if(findPerson.empty){
-        db.collection("Person").doc().set({
+        const uuid = ""+Date.now()
+
+        db.collection("Person").doc(uuid).set({
+            id: uuid,  //Unique ID: Milliseconds from 1970
             name: args.name,
             phone: args.phone
         })
@@ -43,18 +46,22 @@ exports.Read = async function() {
 
 exports.Update = async function(args) {
 
-    console.log("args: "+args)
+    const findPerson =  await db.collection("Person")
+                        .where('id', '==', args.id)
+                        .get()
 
-    const updatePerson =    await db.collection("Person")
-                            .where('name', '==', args.name)
-                            .where('phone', '==', args.phone)
-                            .set({
-                                name: args.name,
-                                phone: args.phone
-                            })
+    // console.log(findPerson.docs.map(doc => doc.data()))
+ 
+    if(!findPerson.empty){
+       db.collection("Person").doc(args.id).update({
+            'name': args.name || findPerson.name,
+            'phone': args.phone || findPerson.phone
+        })
 
+    }else{
+        return "PERSONEN FINDES IKKE";
+    }
 
-    return "Update";
 }
 
 

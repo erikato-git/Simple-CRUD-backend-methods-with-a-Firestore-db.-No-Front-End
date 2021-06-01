@@ -39,14 +39,20 @@ app.post('/', (req,res) => {
 
 app.delete('/:id', (req,res) => {
     // console.log(req.params)
-
-    console.log(controller.Delete())
+    controller.Delete(req.params.id)
 })
 
 app.put('/:id', (req,res) => {
-    // console.log(req.params)
+    // console.log("req.body.name: "+req.body.name)
+    // console.log("req.body.phone: "+req.body.phone)
+    const updatePerson = 
+    {  
+        id: req.params.id,
+        name: req.body.name,
+        phone: req.body.phone
+    }
 
-    console.log(controller.Update())
+    controller.Update(updatePerson)
 })
 
 
