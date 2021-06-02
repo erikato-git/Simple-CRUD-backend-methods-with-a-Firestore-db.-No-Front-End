@@ -65,9 +65,14 @@ exports.Update = async function(args) {
 }
 
 
-exports.Delete = function() {
+exports.Delete = function(args) {
 
-    return "Delete";
+    db.collection("Person").doc(args.id).delete().then(() => {
+        console.log("Document successfully deleted!");
+    }).catch((error) => {
+        console.error("Error removing document: ", error);
+    });
+
 }
 
 

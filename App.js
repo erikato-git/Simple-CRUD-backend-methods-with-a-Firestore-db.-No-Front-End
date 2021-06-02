@@ -38,8 +38,7 @@ app.post('/', (req,res) => {
 })
 
 app.delete('/:id', (req,res) => {
-    // console.log(req.params)
-    controller.Delete(req.params.id)
+    const personSlettet = controller.Delete(req.params)
 })
 
 app.put('/:id', (req,res) => {
