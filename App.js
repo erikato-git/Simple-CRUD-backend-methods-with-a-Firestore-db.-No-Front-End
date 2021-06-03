@@ -1,7 +1,6 @@
 const express = require('express');
 const app = express();
 const controller = require('./controller/Controller.js');
-const path = require('path');
 
 // Til test af POST-method
 app.use(express.urlencoded({extended: true}));
@@ -29,7 +28,7 @@ app.get('/tasks', (req,res) => {
 })
 
 app.post('/', async (req,res) => {
-    // console.log( req.body )
+    console.log( req.body )
 
     const status = await controller.Create(req.body)
 

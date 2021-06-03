@@ -5,12 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Task App</title>
-    <link href="style.css" rel="stylesheet" >
+    <link href="/css/style.css" rel="stylesheet" >
+    <script src="js/index.js" defer></script>
 </head>
 <body>
     <h1>HELLO</h1>
     <p>HEJ</p>
-    <div id="root"></div>
+    <div id="root">
+
+        <form method="POST" action="/">
+            <!-- <input hidden name="crsfToken" value="a1e24s1"> -->
+            <input name="post_name" placeholder="name" value="">
+            <input name="post_phone" placeholder="phone" >
+            <input type="button" name="post_button" value="POST" onClick="postTask(this.form)">    
+        </form>
+
+    </div>
+
+
 
 </body>
 </html>
