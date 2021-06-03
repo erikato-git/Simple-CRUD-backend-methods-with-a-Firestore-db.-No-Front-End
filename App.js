@@ -7,14 +7,12 @@ const path = require('path');
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
+// Sending views-folder to client
+app.use(express.static(__dirname + '/views'));
 
 
 app.get('/', (req,res) => {
-    const status = "America First!"
-    res.render("index", {'variabel' : status});
+    res.sendFile("views/index.html")
 })
 
 app.get('/tasks', (req,res) => {
