@@ -14,8 +14,10 @@ const db = admin.firestore();
 
 exports.Create = async function(args) {
 
-    //Tjek for datatyper og Null
-    //TODO: Undersøg om man kan gøre det vha. mongoose
+    //TODO: Tjek om der er en mere elegant måde at tjekke for datatyper og Null ifht. firestore
+    if(typeof(args.name) !== 'string' || typeof(args.phone) !== 'string' || args == null){
+        return "UGYLDIG INPUT";
+    }
 
     const findPerson =  await db.collection("Person")
                         .where('name', '==', args.name)
@@ -31,6 +33,7 @@ exports.Create = async function(args) {
             name: args.name,
             phone: args.phone
         })
+        return "PERSONEN ER OPRETTET";
     }else{
         return "PERSONEN FINDES ALLEREDE";
     }
@@ -46,6 +49,11 @@ exports.Read = async function() {
 
 exports.Update = async function(args) {
 
+    //TODO: Tjek om der er en mere elegant måde at tjekke for datatyper og Null ifht. firestore
+    if(typeof(args.name) !== 'string' || typeof(args.phone) !== 'string' || args == null){
+        return "UGYLDIG INPUT";
+    }
+
     const findPerson =  await db.collection("Person")
                         .where('id', '==', args.id)
                         .get()
@@ -57,6 +65,7 @@ exports.Update = async function(args) {
             'name': args.name || findPerson.name,
             'phone': args.phone || findPerson.phone
         })
+        return "PERSONEN ER OPDATERET";
 
     }else{
         return "PERSONEN FINDES IKKE";
@@ -66,13 +75,9 @@ exports.Update = async function(args) {
 
 
 exports.Delete = function(args) {
-
-    db.collection("Person").doc(args.id).delete().then(() => {
-        console.log("Document successfully deleted!");
-    }).catch((error) => {
-        console.error("Error removing document: ", error);
-    });
-
+    db.collection("Person").doc(args.id).delete()
+    
+    return "PERSONEN ER SLETTET";
 }
 
 

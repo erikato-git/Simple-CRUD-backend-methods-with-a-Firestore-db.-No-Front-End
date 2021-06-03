@@ -1,14 +1,23 @@
 const express = require('express');
 const app = express();
-const controller = require('./Controller/Controller.js');
+const controller = require('./controller/Controller.js');
+const path = require('path');
 
 // Til test af POST-method
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
 
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
+
 
 
 app.get('/', (req,res) => {
+    const status = "America First!"
+    res.render("index", {'variabel' : status});
+})
+
+app.get('/tasks', (req,res) => {
     // console.log(req.body)
 
     controller.Read(req.body)
@@ -21,27 +30,20 @@ app.get('/', (req,res) => {
     })
 })
 
-app.post('/', (req,res) => {
+app.post('/', async (req,res) => {
     // console.log( req.body )
 
-    controller.Create(req.body)
-    .then(message => {
-        if("PERSONEN FINDES ALLEREDE" == message){
-            res.send(message);
-        }else{
-            res.send("PERSONEN ER OPRETTET")
-        }
-    })
-    .catch(err => {
-        console.log(err)
-    })
+    const status = await controller.Create(req.body)
+
+    res.send(status);
 })
 
 app.delete('/:id', (req,res) => {
     const personSlettet = controller.Delete(req.params)
+    console.log(personSlettet)
 })
 
-app.put('/:id', (req,res) => {
+app.put('/:id', async (req,res) => {
     // console.log("req.body.name: "+req.body.name)
     // console.log("req.body.phone: "+req.body.phone)
     const updatePerson = 
@@ -51,7 +53,8 @@ app.put('/:id', (req,res) => {
         phone: req.body.phone
     }
 
-    controller.Update(updatePerson)
+    const status = await controller.Update(updatePerson)
+    console.log("Status: "+status)
 })
 
 
