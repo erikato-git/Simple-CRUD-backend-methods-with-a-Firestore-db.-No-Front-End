@@ -3,6 +3,14 @@ p {
     font-style: italic; 
 }
 
+#root {
+    color: blue;
+    font-style: bold;
+}
+
+#taskTable {
+}
+
 h1 {
     color: green;
     background: yellowgreen;

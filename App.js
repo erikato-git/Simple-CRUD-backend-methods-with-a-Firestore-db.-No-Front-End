@@ -5,6 +5,7 @@ const controller = require('./controller/Controller.js');
 // Til test af POST-method
 app.use(express.urlencoded({extended: true}));
 app.use(express.json())
+app.use(express.bodyParser())
 
 // Sending views-folder to client
 app.use(express.static(__dirname + '/views'));
